@@ -18,24 +18,30 @@ class WebinarRegistration(StatesGroup):
     specialty = State()
 
 
+@router.message(F.text == "🔙 Назад")
+async def go_back(message: Message, state: FSMContext):
+    await state.clear()
+    await message.answer("Вы вернулись в главное меню", reply_markup=webenar_kb.main_menu)
+
+
 @router.message(F.text == "📅 Регистрация на вебинар")
 async def register_webinar(message: Message, state: FSMContext):
     await state.set_state(WebinarRegistration.full_name)
-    await message.answer("Введите ваше *ФИО*:")
+    await message.answer("Введите ваше *ФИО*:", reply_markup=webenar_kb.back_button)
 
 
 @router.message(WebinarRegistration.full_name)
 async def get_full_name(message: Message, state: FSMContext):
     await state.update_data(full_name=message.text)
     await state.set_state(WebinarRegistration.phone)
-    await message.answer("Введите ваш *номер телефона*:")
+    await message.answer("Введите ваш *номер телефона*:", reply_markup=webenar_kb.back_button)
 
 
 @router.message(WebinarRegistration.phone)
 async def get_phone(message: Message, state: FSMContext):
     await state.update_data(phone=message.text)
     await state.set_state(WebinarRegistration.email)
-    await message.answer("Введите ваш *E-mail*:")
+    await message.answer("Введите ваш *E-mail*:", reply_markup=webenar_kb.back_button)
 
 
 @router.message(WebinarRegistration.email)
@@ -45,14 +51,14 @@ async def get_email(message: Message, state: FSMContext):
         return
     await state.update_data(email=message.text)
     await state.set_state(WebinarRegistration.region)
-    await message.answer("Введите ваш *регион*:")
+    await message.answer("Введите ваш *регион*:", reply_markup=webenar_kb.back_button)
 
 
 @router.message(WebinarRegistration.region)
 async def get_region(message: Message, state: FSMContext):
     await state.update_data(region=message.text)
     await state.set_state(WebinarRegistration.specialty)
-    await message.answer("Введите вашу *специальность*:")
+    await message.answer("Введите вашу *специальность*:", reply_markup=webenar_kb.back_button)
 
 
 @router.message(WebinarRegistration.specialty)
