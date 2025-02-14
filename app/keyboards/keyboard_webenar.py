@@ -14,3 +14,10 @@ main_menu = ReplyKeyboardMarkup(
     ],
     resize_keyboard=True
 )
+
+back_button = ReplyKeyboardMarkup(
+    keyboard=[
+        [KeyboardButton(text="🔙 Назад")]
+    ],
+    resize_keyboard=True
+)
