@@ -16,16 +16,6 @@ async def cmd_start(message: Message):
                          reply_markup=kb.settings)
 
 
-@router.message(Command('help'))
-async def cmd_help(message: Message):
-    await message.answer('Это команда /help')
-
-
-@router.message(F.text == 'Как дела?')
-async def how_are_you(message: Message):
-    await message.answer('OK!')
-
-
 @router.callback_query(F.data == 'cosmetolog')
 async def cosmetolog(callback: CallbackQuery):
     await callback.answer('Вы косметолог')
