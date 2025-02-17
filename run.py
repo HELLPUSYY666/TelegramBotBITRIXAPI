@@ -9,6 +9,8 @@ import logging
 from app.handlers import handlers
 from app.handlers import handler_webenar
 
+from app.database.models import async_main
+
 logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token=TOKEN)
@@ -16,6 +18,7 @@ dp = Dispatcher()
 
 
 async def main():
+    await async_main()
     dp.include_router(handlers.router)
     dp.include_router(handler_webenar.router)
     await dp.start_polling(bot)
