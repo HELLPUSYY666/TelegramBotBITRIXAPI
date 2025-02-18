@@ -6,6 +6,7 @@ from aiogram.types import Message, CallbackQuery
 import app.keyboards.keyboards as kb
 import app.keyboards.keyboard_webenar as webenar_kb
 from aiogram.fsm.context import FSMContext
+import app.database.requests as rq
 
 router = Router()
 
