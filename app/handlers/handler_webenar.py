@@ -4,7 +4,7 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import Message, CallbackQuery
 import app.keyboards.keyboards as kb
 from aiogram.fsm.context import FSMContext
-
+import app.database.requests as rq
 from app.keyboards import keyboard_webenar as webenar_kb
 
 router = Router()
@@ -19,6 +19,12 @@ class WebinarRegistration(StatesGroup):
 
 
 @router.message(F.text == "🔙 Назад")
+async def go_back(message: Message, state: FSMContext):
+    await state.clear()
+    await message.answer("Вы вернулись в главное меню", reply_markup=webenar_kb.main_menu)
+
+
+@router.message(F.text == "✅ Подтвердить регистрацию")
 async def go_back(message: Message, state: FSMContext):
     await state.clear()
     await message.answer("Вы вернулись в главное меню", reply_markup=webenar_kb.main_menu)
@@ -68,6 +74,7 @@ async def get_specialty(message: Message, state: FSMContext):
 
     # Отправляем данные в Битрикс (пример)
     # send_to_bitrix(user_data)
+    user = await rq.save_user_data(user_data, tg_id=message.from_user.id)
 
     await message.answer(
         f"🎉 Вы успешно зарегистрированы на вебинар!\n\n"
